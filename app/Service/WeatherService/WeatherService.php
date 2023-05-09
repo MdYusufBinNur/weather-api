@@ -7,6 +7,7 @@ use App\Http\Resources\City\CityResource;
 use App\Http\Resources\Weather\WeatherResource;
 use App\Models\City;
 use App\Models\Weather;
+use App\Models\WeatherHistory;
 use App\Service\BaseServices;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -44,6 +45,7 @@ class WeatherService implements BaseServices
                 $weatherData['wind_speed'] = $data['wind']['speed'] * 3.6; //Converting meter/sec to km/hr
                 $weatherData['city_id'] = $city->id;
                 Weather::query()->where('city_id','=',$city->id)->updateOrInsert(['city_id' => $city->id], $weatherData);
+                WeatherHistory::query()->insert($weatherData);
             }
             return ResponseAction::successResponse('Weather Data Added', null);
         } catch (Exception $e) {

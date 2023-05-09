@@ -53,9 +53,10 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($countries as $countryData) {
-            $country = Country::query()->create(['name' => $countryData['name']]);
+            $country = Country::query()->firstOrCreate(['name' => $countryData['name']],['name' => $countryData['name']]);
             foreach ($countryData['cities'] as $cityData) {
-                City::query()->create([
+
+                City::query()->where('country_id', '=', $country->id)->create([
                     'name' => $cityData['name'],
                     'country_id' => $country->id,
                     'lat' => $cityData['lat'],
