@@ -4,18 +4,17 @@ namespace App\Service\WeatherService;
 
 use App\Action\ResponseAction;
 use App\Http\Resources\City\CityResource;
-use App\Http\Resources\Weather\WeatherResource;
 use App\Models\City;
 use App\Models\Weather;
 use App\Models\WeatherHistory;
-use App\Service\BaseServices;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class WeatherService implements BaseServices
+class WeatherService
 {
 
     public function index(): JsonResponse
@@ -25,9 +24,8 @@ class WeatherService implements BaseServices
         return ResponseAction::successResponse('Weather list', CityResource::collection($weather));
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(): JsonResponse
     {
-        // TODO: Implement store() method.
         $url = "https://api.openweathermap.org/data/2.5/weather?";
         $appID = env('WEATHER_APP_ID');
         try {
@@ -54,13 +52,13 @@ class WeatherService implements BaseServices
         }
     }
 
-    public function update(Request $request, $id)
+    public function history(Request $request)
     {
-        // TODO: Implement update() method.
-    }
-
-    public function destroy($id)
-    {
-        // TODO: Implement destroy() method.
+        $now = Carbon::now(); // get the current time
+        $last24Hours = $now->subDay();
+        $records = WeatherHistory::query()
+            ->where('city_id','=', $request->city_id)
+            ->whereBetween('created_at',[$last24Hours, $now])
+            ->get();
     }
 }

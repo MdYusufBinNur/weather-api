@@ -19,8 +19,8 @@ class WeatherController extends Controller
     {
         return $this->service->index();
     }
-    public function store(Request $request): \Illuminate\Http\JsonResponse
+    public function store(): \Illuminate\Http\JsonResponse
     {
-        return $this->service->store($request);
+        return $this->service->store();
     }
 }

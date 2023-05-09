@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\Admin\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\Admin\WeatherController;
@@ -24,7 +25,13 @@ Route::get('/', function () {
     ]);
 });
 Route::prefix('v1')->namespace('Api\v1\Admin')->group(function () {
-    Route::post('weather', [WeatherController::class, 'store']);
-    Route::get('weather', [WeatherController::class, 'index']);
+
+    Route::post('login', [AuthController::class, 'login']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('weather', [WeatherController::class, 'store']);
+        Route::get('weather', [WeatherController::class, 'index']);
+        Route::get('logout', [AuthController::class, 'logout']);
+    });
+
 });
 

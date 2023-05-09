@@ -5,7 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,13 +18,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
         $countries = [
             [
                 'name' => 'UAE',
@@ -64,5 +59,13 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        User::query()->firstOrCreate(['email' => 'admin@iq.com'],
+        [
+            'name' => 'Admin',
+            'email' => 'admin@iq.com',
+            'password' => Hash::make('12345678'),
+            'email_verified_at' => now()
+        ]);
     }
 }
