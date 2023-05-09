@@ -43,7 +43,7 @@ class WeatherService implements BaseServices
                 $weatherData['humidity'] = $data['main']['humidity'];
                 $weatherData['wind_speed'] = $data['wind']['speed'] * 3.6; //Converting meter/sec to km/hr
                 $weatherData['city_id'] = $city->id;
-                Weather::query()->create($weatherData);
+                Weather::query()->where('city_id','=',$city->id)->updateOrInsert(['city_id' => $city->id], $weatherData);
             }
             return ResponseAction::successResponse('Weather Data Added', null);
         } catch (Exception $e) {
