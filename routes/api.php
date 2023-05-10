@@ -31,6 +31,7 @@ Route::prefix('v1')->namespace('Api\v1\Admin')->group(function () {
         Route::post('weather', [WeatherController::class, 'store']);
         Route::get('weather', [WeatherController::class, 'index']);
         Route::get('logout', [AuthController::class, 'logout']);
+        Route::get('profile', [AuthController::class, 'profile']);
     });
 
 });

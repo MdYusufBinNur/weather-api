@@ -48,24 +48,28 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($countries as $countryData) {
-            $country = Country::query()->firstOrCreate(['name' => $countryData['name']],['name' => $countryData['name']]);
+            $country = Country::query()->firstOrCreate(['name' => $countryData['name']], ['name' => $countryData['name']]);
             foreach ($countryData['cities'] as $cityData) {
 
-                City::query()->where('country_id', '=', $country->id)->create([
-                    'name' => $cityData['name'],
-                    'country_id' => $country->id,
-                    'lat' => $cityData['lat'],
-                    'lon' => $cityData['lon'],
-                ]);
+                City::query()->firstOrCreate(
+                    [
+                        'name' => $cityData['name'],
+                    ],
+                    [
+                        'name' => $cityData['name'],
+                        'country_id' => $country->id,
+                        'lat' => $cityData['lat'],
+                        'lon' => $cityData['lon'],
+                    ]);
             }
         }
 
         User::query()->firstOrCreate(['email' => 'admin@iq.com'],
-        [
-            'name' => 'Admin',
-            'email' => 'admin@iq.com',
-            'password' => Hash::make('12345678'),
-            'email_verified_at' => now()
-        ]);
+            [
+                'name' => 'Admin',
+                'email' => 'admin@iq.com',
+                'password' => Hash::make('12345678'),
+                'email_verified_at' => now()
+            ]);
     }
 }

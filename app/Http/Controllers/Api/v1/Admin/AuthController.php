@@ -26,4 +26,9 @@ class AuthController extends Controller
     {
         return $this->service->logout();
     }
+
+    public function profile(): JsonResponse
+    {
+        return $this->service->profile();
+    }
 }

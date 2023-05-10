@@ -32,4 +32,9 @@ class AuthService
         \auth()->user()->currentAccessToken()->delete();
         return ResponseAction::successResponse('Successfully Logout', null);
     }
+
+    public function profile(): JsonResponse
+    {
+        return ResponseAction::successResponse('Profile Info', auth()->user());
+    }
 }
