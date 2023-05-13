@@ -23,4 +23,9 @@ class WeatherController extends Controller
     {
         return $this->service->store();
     }
+
+    public function history($cityId)
+    {
+        return $this->service->history($cityId);
+    }
 }

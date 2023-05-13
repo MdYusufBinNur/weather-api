@@ -30,6 +30,7 @@ Route::prefix('v1')->namespace('Api\v1\Admin')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('weather', [WeatherController::class, 'store']);
         Route::get('weather', [WeatherController::class, 'index']);
+        Route::get('history/{cityId}', [WeatherController::class, 'history']);
         Route::get('logout', [AuthController::class, 'logout']);
         Route::get('profile', [AuthController::class, 'profile']);
     });
