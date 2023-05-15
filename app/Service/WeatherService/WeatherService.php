@@ -4,6 +4,7 @@ namespace App\Service\WeatherService;
 
 use App\Action\ResponseAction;
 use App\Http\Resources\City\CityResource;
+use App\Jobs\Weather\StoreWeatherHistoryJob;
 use App\Models\City;
 use App\Models\Weather;
 use App\Models\WeatherHistory;
@@ -45,7 +46,7 @@ class WeatherService
                 $weatherData['wind_speed'] = $data['wind']['speed'] * 3.6; //Converting meter/sec to km/hr
                 $weatherData['city_id'] = $city->id;
                 Weather::query()->where('city_id', '=', $city->id)->updateOrInsert(['city_id' => $city->id], $weatherData);
-                WeatherHistory::query()->insert($weatherData);
+                dispatch(new StoreWeatherHistoryJob());
             }
             return ResponseAction::successResponse('Weather Data Added', null);
         } catch (Exception $e) {
